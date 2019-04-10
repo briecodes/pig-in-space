@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvasContainer = document.getElementById('canvas-container');
   const enterD = document.getElementById('enter');
 
-  let scene, camera, renderer, light, directionalLight;
+  let scene, camera, renderer, light, directionalLight, sfx;
 
   launch.addEventListener('click', () =>{
     loadPiggy();
     enterD.classList.add('hide');
+    sfx.play();
   });
 
   setupScene();
@@ -20,10 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     light = new THREE.AmbientLight( 0x404040 );
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize( window.innerWidth, window.innerHeight );
+    sfx = document.getElementById('sfx');
     
     scene.add( light );
     scene.add( directionalLight );
     canvasContainer.appendChild( renderer.domElement );
+
   };
 
   function loadPiggy() {
