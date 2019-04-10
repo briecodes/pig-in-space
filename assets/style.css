@@ -3,10 +3,12 @@
 html, body {
   padding: 0;
   margin: 0;
+  height: 100%;
   background-color: #000;
   background-image: url("./images/hubble-observes-one-of-a-kind-star-nicknamed-nasty_17754652960_o_orig.jpg");
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
   font-family: 'Rajdhani', sans-serif;
   color: #fff;
 }
@@ -19,11 +21,66 @@ canvas {
 }
 
 #enter {
-  width: 50%;
-  margin: 0 auto;
   text-align: center;
+}
+
+.align-self {
+  align-self: center;
+}
+
+#flex {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 5;
+  justify-content: center;
 }
 
 #launch {
   cursor: pointer;
+}
+
+#launch:hover {
+  opacity: 0.5;
+}
+
+#canvas-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#canvas-container canvas {
+  align-self: center;
+}
+
+#header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90%;
+  padding: 0 5%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hide {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0.01
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
 }

@@ -1,39 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
   const launch = document.getElementById('launch');
-  let scene = new THREE.Scene();
-  let camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  const canvasContainer = document.getElementById('canvas-container');
+  const enterD = document.getElementById('enter');
 
-  let renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize( window.innerWidth, window.innerHeight );
-  document.body.appendChild( renderer.domElement );
+  let scene, camera, renderer, light, directionalLight;
 
-  let light = new THREE.AmbientLight( 0x404040 ); // soft white light
-  scene.add( light );
-  let directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
-  scene.add( directionalLight );
+  launch.addEventListener('click', () =>{
+    loadPiggy();
+    enterD.classList.add('hide');
+  });
 
-  launch.addEventListener('click', loadPiggy);
+  setupScene();
+
+
+  function setupScene() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    light = new THREE.AmbientLight( 0x404040 );
+    renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    
+    scene.add( light );
+    scene.add( directionalLight );
+    canvasContainer.appendChild( renderer.domElement );
+  };
 
   function loadPiggy() {
     let pigLoader = new THREE.GLTFLoader();
 
     pigLoader.load( '../assets/models/piggybank.glb', function ( gltf ) {
-      gltf.scene.position.set(Math.floor(Math.random() * 200) + -200, Math.floor(Math.random() * 200) + -200, (Math.floor(Math.random() * 500) + 250)*-1);
+      gltf.scene.position.set(rNum(200, 1), rNum(200, 1), rNum(500, 250, true));
       scene.add( gltf.scene );
-      animate(gltf.scene);
+      animate(gltf.scene, Math.floor(Math.random()*2) == 1 ? 1 : -1);
     }, undefined, function ( error ) {
       console.error( 'Error:', error );
     });
   };
 
-  const animate = function (m) {
-    requestAnimationFrame( () => animate(m) );
+  const animate = function (m, r) {
+    requestAnimationFrame( () => animate(m, r) );
 
-    m.rotation.x += 0.005;
-    m.rotation.y += 0.005;
-    m.rotation.z += 0.005;
+    let n = 0.005 * r;
+    m.rotation.x += n;
+    m.rotation.y += n;
+    m.rotation.z += n;
 
     renderer.render( scene, camera );
+  };
+
+  function rNum(n1, n2=1, d=false) {
+    let num = Math.floor(Math.random()*n1) + n2; // this will get a number between n2 and n1;
+    if (d) {
+      num *= -1;
+    } else {
+      num *= Math.floor(Math.random()*2) == 1 ? 1 : -1; // this will add minus sign in 50% of cases
+    };
+    return num;
   };
 
 });
