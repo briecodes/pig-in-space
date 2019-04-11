@@ -24,6 +24,11 @@ canvas {
   text-align: center;
 }
 
+#enter h1, #enter h3 {
+  margin: 0;
+  padding: 0;
+}
+
 .align-self {
   align-self: center;
 }
@@ -37,11 +42,11 @@ canvas {
   justify-content: center;
 }
 
-#launch {
+#launchBtn {
   cursor: pointer;
 }
 
-#launch:hover {
+#launchBtn:hover {
   opacity: 0.5;
 }
 
@@ -63,13 +68,34 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 6;
   width: 90%;
   padding: 0 5%;
   background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+}
+
+#header h3:first-of-type {
+  position: relative;
+  float: left;
+}
+
+#header h3:last-of-type {
+  position: relative;
+  float: right;
+  cursor: pointer;
+}
+
+#header h3:last-of-type:hover {
+  opacity: 0.5;
 }
 
 .hide {
   animation: fadeOut 1s forwards;
+}
+
+.fadein {
+  animation: fadeIn 1s forwards;
 }
 
 @keyframes fadeOut {
@@ -82,5 +108,14 @@ canvas {
   100% {
     opacity: 0;
     display: none;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

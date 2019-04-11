@@ -1,14 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const launch = document.getElementById('launch');
+  const launchBtn = document.getElementById('launchBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const header = document.getElementById('header');
   const canvasContainer = document.getElementById('canvas-container');
   const enterD = document.getElementById('enter');
 
   let scene, camera, renderer, light, directionalLight, sfx;
 
-  launch.addEventListener('click', () =>{
+  launchBtn.addEventListener('click', () => {
     loadPiggy();
     enterD.classList.add('hide');
+    header.classList.add('fadein');
+    setTimeout(() => {
+      enterD.remove();
+    }, 1000);
     sfx.play();
+  });
+
+  pauseBtn.addEventListener('click', () => {
+    if (sfx.paused){
+      pauseBtn.innerText = 'Pause Sound';
+      sfx.play();
+    } else {
+      pauseBtn.innerText = 'Play Sound';
+      sfx.pause();
+    };
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.type === 'keyup' && e.key === 'p') loadPiggy();
   });
 
   setupScene();
