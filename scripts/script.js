@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('header');
   const canvasContainer = document.getElementById('canvas-container');
   const enterD = document.getElementById('enter');
+  const movePig = {auto: true, manual: false, direction: null}
+  const pigArray = [];
 
   let scene, camera, renderer, light, directionalLight, sfx;
 
@@ -57,20 +59,24 @@ document.addEventListener('DOMContentLoaded', () => {
       gltf.scene.position.set(rNum(200, 1), rNum(200, 1), rNum(500, 250, true));
       scene.add( gltf.scene );
       animate(gltf.scene, Math.floor(Math.random()*2) == 1 ? 1 : -1);
+      pigArray.push(gltf.scene);
+      console.log('Piggy Array:', pigArray);
     }, undefined, function ( error ) {
       console.error( 'Error:', error );
     });
   };
 
   const animate = function (m, r) {
-    requestAnimationFrame( () => animate(m, r) );
+    if (movePig.auto) {
+      requestAnimationFrame( () => animate(m, r) );
 
-    let n = 0.005 * r;
-    m.rotation.x += n;
-    m.rotation.y += n;
-    m.rotation.z += n;
+      let n = 0.005 * r;
+      m.rotation.x += n;
+      m.rotation.y += n;
+      m.rotation.z += n;
 
-    renderer.render( scene, camera );
+      renderer.render( scene, camera );
+    };
   };
 
   function rNum(n1, n2=1, d=false) {
