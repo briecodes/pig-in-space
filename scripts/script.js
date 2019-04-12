@@ -30,7 +30,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keyup', (e) => {
-    if (e.type === 'keyup' && e.key === 'p') loadPiggy();
+    if (e.key === 'p') loadPiggy();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') movePig.manual = false;
+  });
+
+  document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+        movePig.manual = true;
+        movePig.auto = false;
+        movePig.direction = 'left';
+        animate(pigArray[0]);
+      break;
+      case 'ArrowRight':
+        movePig.manual = true;
+        movePig.auto = false;
+        movePig.direction = 'right';
+        animate(pigArray[0]);
+      break;
+      case 'ArrowUp':
+        movePig.manual = true;
+        movePig.auto = false;
+        movePig.direction = 'up';
+        animate(pigArray[0]);
+      break;
+      case 'ArrowDown':
+        movePig.manual = true;
+        movePig.auto = false;
+        movePig.direction = 'down';
+        animate(pigArray[0]);
+      break;
+      default:
+      console.log('dunno');
+    };
+
   });
 
   fetchNasaPic();
@@ -76,6 +109,31 @@ document.addEventListener('DOMContentLoaded', () => {
       m.rotation.z += n;
 
       renderer.render( scene, camera );
+    } else if (movePig.manual) {
+      switch (movePig.direction) {
+        case 'left':
+          requestAnimationFrame( () => animate(m, r) );
+          m.position.x -= 0.1;
+          renderer.render( scene, camera );
+          break;
+        case 'right':
+          requestAnimationFrame( () => animate(m, r) );
+          m.position.x += 0.1;
+          renderer.render( scene, camera );
+          break;
+        case 'up':
+          requestAnimationFrame( () => animate(m, r) );
+          m.position.y += 0.1;
+          renderer.render( scene, camera );
+          break;
+        case 'down':
+          requestAnimationFrame( () => animate(m, r) );
+          m.position.y -= 0.1;
+          renderer.render( scene, camera );
+          break;
+        default:
+        return;
+      };
     };
   };
 
