@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvasContainer = document.getElementById('canvas-container');
   const enterD = document.getElementById('enter');
   const movePig = {auto: true, manual: false, direction: null}
+  const keyEngage = false;
   const pigArray = [];
 
   let scene, camera, renderer, light, directionalLight, sfx;
@@ -35,33 +36,36 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (e) => {
-    switch (e.key) {
-      case 'ArrowLeft':
-        movePig.manual = true;
-        movePig.auto = false;
-        movePig.direction = 'left';
-        animate(pigArray[0]);
-      break;
-      case 'ArrowRight':
-        movePig.manual = true;
-        movePig.auto = false;
-        movePig.direction = 'right';
-        animate(pigArray[0]);
-      break;
-      case 'ArrowUp':
-        movePig.manual = true;
-        movePig.auto = false;
-        movePig.direction = 'up';
-        animate(pigArray[0]);
-      break;
-      case 'ArrowDown':
-        movePig.manual = true;
-        movePig.auto = false;
-        movePig.direction = 'down';
-        animate(pigArray[0]);
-      break;
-      default:
-      console.log('dunno');
+    if (!keyEngage) {
+      keyEngage = true;
+      switch (e.key) {
+        case 'ArrowLeft':
+          movePig.manual = true;
+          // movePig.auto = false;
+          movePig.direction = 'left';
+          movePiggy(pigArray[0]);
+        break;
+        case 'ArrowRight':
+          movePig.manual = true;
+          // movePig.auto = false;
+          movePig.direction = 'right';
+          movePiggy(pigArray[0]);
+        break;
+        case 'ArrowUp':
+          movePig.manual = true;
+          // movePig.auto = false;
+          movePig.direction = 'up';
+          movePiggy(pigArray[0]);
+        break;
+        case 'ArrowDown':
+          movePig.manual = true;
+          // movePig.auto = false;
+          movePig.direction = 'down';
+          movePiggy(pigArray[0]);
+        break;
+        default:
+        console.log('dunno');
+      };
     };
 
   });
@@ -109,32 +113,62 @@ document.addEventListener('DOMContentLoaded', () => {
       m.rotation.z += n;
 
       renderer.render( scene, camera );
-    } else if (movePig.manual) {
+    }
+  };
+
+  const movePiggy = function (m, r) {
+    if (movePig.manual) {
       switch (movePig.direction) {
         case 'left':
-          requestAnimationFrame( () => animate(m, r) );
+          requestAnimationFrame( () => movePiggy(m, r) );
           m.position.x -= 0.1;
-          renderer.render( scene, camera );
+          // renderer.render( scene, camera );
           break;
         case 'right':
-          requestAnimationFrame( () => animate(m, r) );
+          requestAnimationFrame( () => movePiggy(m, r) );
           m.position.x += 0.1;
-          renderer.render( scene, camera );
+          // renderer.render( scene, camera );
           break;
         case 'up':
-          requestAnimationFrame( () => animate(m, r) );
+          requestAnimationFrame( () => movePiggy(m, r) );
           m.position.y += 0.1;
-          renderer.render( scene, camera );
+          // renderer.render( scene, camera );
           break;
         case 'down':
-          requestAnimationFrame( () => animate(m, r) );
+          requestAnimationFrame( () => movePiggy(m, r) );
           m.position.y -= 0.1;
-          renderer.render( scene, camera );
+          // renderer.render( scene, camera );
           break;
         default:
         return;
       };
-    };
+    } else {
+      console.log('MovePigManual:', movePig.manual);
+      switch (movePig.direction) {
+        case 'left':
+          requestAnimationFrame( () => movePiggy(m, r) );
+          m.position.x -= 0.1;
+          // renderer.render( scene, camera );
+          break;
+        case 'right':
+          requestAnimationFrame( () => movePiggy(m, r) );
+          m.position.x += 0.1;
+          // renderer.render( scene, camera );
+          break;
+        case 'up':
+          requestAnimationFrame( () => movePiggy(m, r) );
+          m.position.y += 0.1;
+          // renderer.render( scene, camera );
+          break;
+        case 'down':
+          requestAnimationFrame( () => movePiggy(m, r) );
+          m.position.y -= 0.1;
+          // renderer.render( scene, camera );
+          break;
+        default:
+        return;
+      };
+    }
   };
 
   function rNum(n1, n2=1, d=false) {
