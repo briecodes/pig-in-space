@@ -5,12 +5,15 @@ html, body {
   margin: 0;
   height: 100%;
   background-color: #000;
-  background-image: url("./images/hubble-observes-one-of-a-kind-star-nicknamed-nasty_17754652960_o_orig.jpg");
+  font-family: 'Rajdhani', sans-serif;
+  color: #fff;
+}
+
+body {
+  /* background-image: url("./images/hubble-observes-one-of-a-kind-star-nicknamed-nasty_17754652960_o_orig.jpg"); */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  font-family: 'Rajdhani', sans-serif;
-  color: #fff;
 }
 
 canvas {

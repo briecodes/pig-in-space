@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.type === 'keyup' && e.key === 'p') loadPiggy();
   });
 
+  fetchNasaPic();
   setupScene();
 
 
@@ -80,6 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
       num *= Math.floor(Math.random()*2) == 1 ? 1 : -1; // this will add minus sign in 50% of cases
     };
     return num;
+  };
+
+  function fetchNasaPic() {
+    fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json()).then(res => {
+      document.getElementsByTagName('body')[0].style.backgroundImage = `url(${res.url})`;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementsByTagName('body')[0].style.backgroundImage = `url(./assets/images/hubble-observes-one-of-a-kind-star-nicknamed-nasty_17754652960_o_orig.jpg)`;
+    });
   };
 
 });
