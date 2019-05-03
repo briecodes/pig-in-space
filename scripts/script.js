@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   launchBtn.addEventListener('click', () => {
     loadPiggy();
+    loadAsteroid();
     enterD.classList.add('hide');
     header.classList.add('fadein');
     setTimeout(() => {
@@ -36,8 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (e) => {
-    if (!keyEngage) {
-      keyEngage = true;
+    // if (!keyEngage) {
+    //   keyEngage = true;
       switch (e.key) {
         case 'ArrowLeft':
           movePig.manual = true;
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         default:
         console.log('dunno');
       };
-    };
+    // };
 
   });
 
@@ -89,6 +90,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   };
 
+  function loadAsteroid() {
+    let asteroidLoader = new THREE.OBJLoader();
+    let asteroidMTLLoader = new THREE.MTLLoader();
+    asteroidLoader.setPath('../assets/models/asteroid1/');
+    asteroidMTLLoader.setPath('../assets/models/asteroid1/');
+
+    asteroidMTLLoader.load(
+      'asteroid.mtl',
+      (mtl) => {
+        mtl.preload();
+        asteroidLoader.setMaterials(mtl);
+
+        asteroidLoader.load(
+          'asteroid.obj',
+          (obj) => {
+            scene.add(obj);
+            obj.position.set(0, 0, -250);
+            obj.scale.set(5, 5, 5);
+            animate(obj, Math.floor(Math.random()*2) == 1 ? 1 : -1);
+          },
+          (progress) => {
+            console.log( `OBJ: ${( progress.loaded / progress.total * 100 )}% loaded.` );
+          },
+          (error) => {
+            console.log('Error obj:', error);
+          }
+        );
+      },
+      (progress) => {
+        console.log( `MTL: ${( progress.loaded / progress.total * 100 )}% loaded.` );
+      },
+      (error) => {
+        console.log('Error obj:', error);
+      }
+    );
+
+  };
+
   function loadPiggy() {
     let pigLoader = new THREE.GLTFLoader();
 
@@ -97,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scene.add( gltf.scene );
       animate(gltf.scene, Math.floor(Math.random()*2) == 1 ? 1 : -1);
       pigArray.push(gltf.scene);
-      console.log('Piggy Array:', pigArray);
+      // console.log('Piggy Array:', pigArray);
     }, undefined, function ( error ) {
       console.error( 'Error:', error );
     });
